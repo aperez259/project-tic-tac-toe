@@ -1,7 +1,3 @@
-choices = ['top-L', 'top-M', 'top-R', 'mid-L', 'mid-M', 'mid-R', 'low-L', 'low-M', 'low-R'] #this list is used to store players' moves and also to check if they are in a winning position
-
-
-theBoard = {'top-L': ' ', 'top-M': ' ', 'top-R': ' ', 'mid-L': ' ', 'mid-M': ' ', 'mid-R': ' ', 'low-L': ' ', 'low-M': ' ', 'low-R': ' '} 
 def printBoard(board):
 
     print(board['top-L'] + '|' + board['top-M'] + '|' + board['top-R'])
@@ -16,39 +12,31 @@ def checkWinner(board, player):
     print('Checking if '+ player + ' is a winner...')
 
 
-    if choices[0] == choices[1] == choices[2] == 'X' or choices[3] == choices[4] == choices[5] == 'X' or choices[6] == choices[7] == choices[8] == 'X' or choices[0] == choices[3] == choices[6] == 'X' or choices[1] == choices[4] == choices[7] == 'X' or choices[2] == choices[5] == choices[8]== 'X' or choices[0] == choices[4] == choices[8] == 'X' or choices[2] == choices[4] == choices[6]== 'X': #This code checks the choices list to see if X has a winning position. It checks for the 3 horizontal, 3 vertical and 2 diagonal posibilities.
-        print('X wins!') #the above is true, then it prints out that X has won
-        return True
-
-    if choices[0] == choices[1] == choices[2] == 'O' or choices[3] == choices[4] == choices[5] == 'O' or choices[6] == choices[7] == choices[8] == 'O' or choices[0] == choices[3] == choices[6] == 'O' or choices[1] == choices[4] == choices[7] == 'O' or choices[2] == choices[5] == choices[8]== 'O' or choices[0] == choices[4] == choices[8] == 'O' or choices[2] == choices[4] == choices[6]== 'O': #This code checks the choices list to see if O has a winning position. It checks for the 3 horizontal, 3 vertical and 2 diagonal posibilities.
-        print('Checking if O is a winner...')
-        print('O wins!') #the above is true, then it prints out that O has won
-        return True
-    
-    else:
-        return False
+    return ((board['top-L'] == player and board['top-M'] == player and board['top-R'] == player) or #This code checks to see if either player has a winning position. It checks for the 3 horizontal, 3 vertical and 2 diagonal posibilities.
+    (board['mid-L'] == player and board['mid-M'] == player and board['mid-R'] == player) or
+    (board['low-L'] == player and board['low-M'] == player and board['low-R'] == player) or
+    (board['top-L'] == player and board['mid-L'] == player and board['low-L'] == player) or 
+    (board['top-M'] == player and board['mid-M'] == player and board['low-M'] == player) or 
+    (board['top-R'] == player and board['mid-R'] == player and board['low-R'] == player) or 
+    (board['top-L'] == player and board['mid-M'] == player and board['low-R'] == player) or 
+    (board['top-R'] == player and board['mid-M'] == player and board['low-L'] == player)) 
 
 
 def startGame(startingPlayer, board):
 
     
-
     turn = startingPlayer
-    for i in range(9):
+    for i in range(9): #Repeats the loop for a max of 9 times
         printBoard(board)
-        print('Turn for ' + turn + '. Move on which space?')
-        player_move = input()
-        choices[choices.index(player_move)] = turn #the move that the player enters is then replaced by either an X or an O in the choices list (based on who's turn it is). This list is used as the refence to see who wins.
-        board[player_move] = turn
-
-
-        if ( checkWinner(board, 'X') ):
-            break
-            quit
-
-        if ( checkWinner(board, 'O') ):
-            break
-            quit
+        print('Turn for ' + turn + '. Move on which space?') #prints asking the player where they want to move
+        move = input() #player enters their move
+        board[move] = turn #puts the player's move into the board
+        if( checkWinner(board, 'X') ): #pulls up checkWinner to see if 'X' is in a winning position
+            print('X wins!') #prints that X has won
+            break #if X wins, it ends the loop
+        elif ( checkWinner(board, 'O') ): #Checks to see if 'O' is in a winning position
+            print('O wins!') #prints that O has won
+            break #if X wins, it ends the loop
     
         if turn == 'X':
             turn = 'O'
@@ -56,8 +44,6 @@ def startGame(startingPlayer, board):
             turn = 'X'
         
     printBoard(board)
-
-
 
 
 
